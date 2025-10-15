@@ -1,0 +1,8 @@
+streamlit
+pandas
+openpyxl
+pillow
+python-dotenv
+email-validator
+plotly
+streamlit-option-menu
