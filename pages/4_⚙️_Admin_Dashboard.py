@@ -241,31 +241,39 @@ with tab1:
                     approve_button = st.form_submit_button("✅ Approve & Send Email", type="primary")
                     
                     if approve_button:
-                        # Update database
-                        update_data = {
-                            "Status": "Approved",
-                            "Assigned_Tutor": selected_tutor,
-                            "Google_Meet_Link": google_meet_link
-                        }
-                        
-                        success, msg = db.update_student(selected_student, update_data)
-                        
-                        if success:
-                            # Send approval email
-                            email_success, email_msg = email_service.send_approval_email(
-                                student_data,
-                                selected_tutor,
-                                google_meet_link
-                            )
+                        with st.spinner("Approving student and sending email..."):
+                            # Update database
+                            update_data = {
+                                "Status": "Approved",
+                                "Assigned_Tutor": selected_tutor,
+                                "Google_Meet_Link": google_meet_link
+                            }
                             
-                            if email_success:
-                                st.success("✅ Student approved and email sent successfully!")
-                                st.balloons()
-                                st.rerun()
+                            success, msg = db.update_student(selected_student, update_data)
+                            
+                            if success:
+                                # Send approval email
+                                email_success, email_msg = email_service.send_approval_email(
+                                    student_data,
+                                    selected_tutor,
+                                    google_meet_link
+                                )
+                                
+                                if email_success:
+                                    st.success("✅ Student approved and email sent successfully!")
+                                    st.balloons()
+                                    # Add a small delay to ensure file is written
+                                    import time
+                                    time.sleep(0.5)
+                                    st.rerun()
+                                else:
+                                    st.warning(f"✅ Student approved but email failed: {email_msg}")
+                                    st.info("Please verify the email configuration in your .env file")
+                                    import time
+                                    time.sleep(0.5)
+                                    st.rerun()
                             else:
-                                st.warning(f"Student approved but email failed: {email_msg}")
-                        else:
-                            st.error(f"❌ Failed to approve student: {msg}")
+                                st.error(f"❌ Failed to approve student: {msg}")
             
             elif action == "Reject":
                 st.markdown("### ❌ Reject Student Registration")
