@@ -1,6 +1,8 @@
 import streamlit as st
 import sys
 from pathlib import Path
+from streamlit_extras.switch_page_button import switch_page
+
 
 # Add parent directory to path
 sys.path.append(str(Path(__file__).resolve().parent.parent))
@@ -63,9 +65,9 @@ if 'user_email' not in st.session_state:
     st.session_state.user_email = None
 
 if st.session_state.user_role == "admin":
-    st.switch_page("pages/.admin_dashboard.py")
+    switch_page("admin_dashboard")
 elif st.session_state.user_role == "tutor":
-    st.switch_page("pages/.tutor_dashboard.py")
+    switch_page("tutor_dashboard.py")
 
 # Header
 st.markdown("""
