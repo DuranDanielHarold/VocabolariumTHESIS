@@ -65,9 +65,9 @@ if 'user_email' not in st.session_state:
 # If already authenticated, redirect to appropriate dashboard
 if st.session_state.authenticated:
     if st.session_state.user_role == "admin":
-        st.switch_page("pages/4_⚙️_Admin_Dashboard.py")
+        st.switch_page("pages/admin_dashboard.py")
     elif st.session_state.user_role == "tutor":
-        st.switch_page("pages/5_👨‍🏫_Tutor_Dashboard.py")
+        st.switch_page("pages/tutor_dashboard.py")
 
 # Header
 st.markdown("""
